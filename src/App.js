@@ -24,35 +24,62 @@ class App extends React.Component {
   constructor() {
     super();
     this.state =  {
-      todoData,
-      list: '',
-      id: Date.now(),
-      completed: false
+      todos: todoData,
+      id: 123
     };
   }
 
-  addTodo = event => {
-    event.preventDefault()
-      const newTodo = {
-        list: this.state.list,
-        id: this.state.id,
-      }
+  toggleItem = id => {
+    console.log(id);
+    this.setState({
+      todos: this.state.todos.map(item => {
+        if (item.id === id) {
+          console.log("reverting " + item);
+          return {
+            ...item,
+            // Same as:
+            // name: item.name,
+            // id: item.id,
+            // purchased: item.purchased,
+            completed: !item.completed
+          };
+        } else {
+          return item;
+        }
+      }), 
+      id: this.state.id
+    });
+  };
 
-    this.setState({todoData: [...this.state.todoData, newTodo]})
-  }
+  clearCompleted = () => {
+    this.setState({
+      todos: this.state.todos.filter(item => !item.completed)
+    });
+  };
 
-  newTask = event => {
-    this.setState({list: event.target.value})
-  }
+  addNewTodo = todoname => {
+    const newTodo = {
+      list: todoname,
+      id: this.state.id,
+      completed: false
+    };
+    this.setState({
+      todos: [...this.state.todos, newTodo],
+      id: this.state.id + 1
+    });
+  };
 
   render() {
     return (	   
       <div className="App">
           <h2>Welcome to your Todo App!</h2>
           <h3> Web Development Learning List: </h3>
-         {this.state.todoData.map(newTaskList =>  (
-             <TodoList newTaskList = {newTaskList} />))} 
-         <TodoForm addTodo = {this.addTodo} newTask = {this.newTask}/>
+          <TodoList 
+            tasksList={this.state.todos} 
+            toggleItem={this.toggleItem}/>
+         <TodoForm 
+            addNewTodo = {this.addNewTodo} 
+            clearCompleted = {this.clearCompleted} />
       </div>	    
     );	   
   }	 

@@ -5,7 +5,11 @@ import React from "react";
 import Todo from './Todo';
 
 const TodoList = props =>(
-  <Todo newTaskList = {props.newTaskList}/>
+    <ul>
+    {props.tasksList.map(task => {
+        return <Todo task={task}  toggleItem={props.toggleItem}/>
+      })}
+    </ul>
     )
 
 export default TodoList;
