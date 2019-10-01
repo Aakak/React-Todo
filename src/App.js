@@ -37,10 +37,6 @@ class App extends React.Component {
           console.log("reverting " + item);
           return {
             ...item,
-            // Same as:
-            // name: item.name,
-            // id: item.id,
-            // purchased: item.purchased,
             completed: !item.completed
           };
         } else {
